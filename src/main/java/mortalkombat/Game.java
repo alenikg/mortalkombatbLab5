@@ -1,7 +1,12 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package mortalkombat;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +24,9 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**
+ * @author Мария
+ */
 public class Game {
     int locationCount = 0;
     int currLocationIndex = 0;
@@ -52,9 +60,14 @@ public class Game {
     }
 
     private File getResultsFile() {
-        String userHomePath = System.getProperty("user.home");
-        Path path = Paths.get(userHomePath, "Desktop", "Results.xlsx");
-        return path.toFile();
+        URL url = getClass().getResource("/Results.xlsx");
+        if (url == null) {
+            System.err.println("Error: Results.xlsx not found in classpath!");
+            return null;
+        }
+
+        System.out.println(url.getPath());
+        return new File(url.getPath());
     }
 
     private int getRandomEnemiesCount(int level) {
@@ -83,6 +96,10 @@ public class Game {
     }
 
     public void WriteToExcel() throws IOException {
+        File file = this.getResultsFile();
+        if (file == null) {
+            return;
+        }
         XSSFWorkbook book = new XSSFWorkbook();
         XSSFSheet sheet = book.createSheet("Результаты ТОП 10");
         XSSFRow r = sheet.createRow(0);
@@ -97,7 +114,7 @@ public class Game {
                 r2.createCell(2).setCellValue(results.get(i).getPoints());
             }
         }
-        book.write(new FileOutputStream(this.getResultsFile()));
+        book.write(new FileOutputStream(file));
         book.close();
     }
 
@@ -106,8 +123,12 @@ public class Game {
     }
 
     public void ReadFromExcel() {
+        File file = this.getResultsFile();
+        if (file == null) {
+            return;
+        }
         try (
-                FileInputStream fileInputStream = new FileInputStream(this.getResultsFile());
+                FileInputStream fileInputStream = new FileInputStream(file);
                 XSSFWorkbook book = new XSSFWorkbook(fileInputStream)
         ) {
             XSSFSheet sh = book.getSheetAt(0);

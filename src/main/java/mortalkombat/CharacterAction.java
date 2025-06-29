@@ -1,7 +1,11 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package mortalkombat;
 
 import javax.swing.*;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,6 +13,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @author Мария
+ */
 public class CharacterAction {
 
     private final int experience_for_next_level[] = {40, 90, 180, 260, 410, 1000};
@@ -24,9 +32,12 @@ public class CharacterAction {
     private Player enemyy = null;
 
     private String getIconPathStr(String fileName) {
-        String userHomePath = System.getProperty("user.home");
-        Path path = Paths.get(userHomePath, "Desktop", fileName);
-        return path.toString();
+        URL url = getClass().getResource("/images/" + fileName);
+        if (url != null) {
+            return url.getPath();
+        } else {
+            return "";
+        }
     }
 
     private static void shuffleExceptLast(Player[] arr) {
@@ -69,19 +80,19 @@ public class CharacterAction {
         enemyy = enemyes[currEnemyIndex];
         ImageIcon icon1 = null;
         if (enemyy instanceof Baraka) {
-            icon1 = new ImageIcon(getIconPathStr("Baraka.jpg"));
+            icon1 = new ImageIcon(getIconPathStr("baraka.jpg"));
             label2.setText("Baraka (танк)");
         }
         if (enemyy instanceof SubZero) {
-            icon1 = new ImageIcon(getIconPathStr("Sub-Zero.jpg"));
+            icon1 = new ImageIcon(getIconPathStr("subzero.jpg"));
             label2.setText("Sub-Zero (маг)");
         }
         if (enemyy instanceof LiuKang) {
-            icon1 = new ImageIcon(getIconPathStr("Liu Kang.jpg"));
+            icon1 = new ImageIcon(getIconPathStr("liukang.jpg"));
             label2.setText("Liu Kang (боец)");
         }
         if (enemyy instanceof SonyaBlade) {
-            icon1 = new ImageIcon(getIconPathStr("Sonya Blade.jpg"));
+            icon1 = new ImageIcon(getIconPathStr("sonyablade.jpg"));
             label2.setText("Sonya Blade (солдат)");
         }
         label.setIcon(icon1);
@@ -93,7 +104,7 @@ public class CharacterAction {
 
     public Player ChooseBoss(JLabel label, JLabel label2, JLabel text, JLabel label3, int i) {
         ImageIcon icon1 = null;
-        icon1 = new ImageIcon(getIconPathStr("Shao Kahn.png"));
+        icon1 = new ImageIcon(getIconPathStr("shaokahn.png"));
         label2.setText("Shao Kahn (босс)");
         enemyy = this.enemyes[this.enemyes.length - 1];
         label.setIcon(icon1);
