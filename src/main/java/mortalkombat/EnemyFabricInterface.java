@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package mortalkombat;
 
 /**
+ * Интерфейс фабрики врагов.
+ * Определяет метод создания врага.
  *
  * @author Мария
  */
 public interface EnemyFabricInterface {
+    
+    /**
+     * Создаёт врага.
+     *
+     * @param i параметр
+     * @return объект врага
+     */
     public Player create(int i);
 }

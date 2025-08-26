@@ -1,19 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package mortalkombat;
 
 import java.util.*;
 
 /**
- *
+ * Главный класс приложения, содержащий точку входа в программу.
+ * 
  * @author Мария
  */
 public class MortalKombatBVersion {
 
     /**
-     * @param args the command line arguments
+     * Главный метод, запускающий приложение
+     * 
+     * @param args аргументы командной строки (не используются)
      */
     public static void main(String[] args) {
         

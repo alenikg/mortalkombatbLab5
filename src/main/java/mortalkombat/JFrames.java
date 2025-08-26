@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package mortalkombat;
 
 import javax.swing.*;
@@ -12,21 +9,38 @@ import java.util.logging.Logger;
 
 
 /**
+ * Класс управляет графическим интерфейсом игры.
+ * Создаёт окна, кнопки, панели, диалоги, таблицы результатов,
+ * связывает их с логикой игры и обновляет интерфейс во время боёв.
+ *
+ * Использует {@link Game}, {@link Fight}, {@link CharacterAction}, {@link ChangeTexts}.
  *
  * @author Мария
  */
 public class JFrames extends javax.swing.JFrame {
     
+    /** Игровая логика. */
     Game game = new Game();
+    
+    /** Игрок (персонаж человека). */
     Human human = null;
+    
+    /** Противник игрока. */
     Player enemy = null;
+    
+    /** Массив предметов игрока. */
     Items[] items = new Items[3];
+    
+    /** Имя выбранной кнопки. */
     String nameButton = "";
+    
+    /** Количество локаций в игре. */
     int locationCount = 0;
 
     
     /**
-     * Creates new form JFrame
+     * Создаёт новое окно игры и инициализирует интерфейс.
+     * Загружает таблицу рекордов и настраивает начальные параметры.
      */
     public JFrames() {
         initComponents();
@@ -43,6 +57,12 @@ public class JFrames extends javax.swing.JFrame {
         jLabel37.setIcon(new ImageIcon(getClass().getResource("/images/kitana.jpg")));
     }
 
+    /**
+     * Показывает сообщение об ошибке.
+     *
+     * @param parentComponent компонент, относительно которого выводится сообщение
+     * @param message текст сообщения
+     */
     private void showErrorMessage(Component parentComponent, String message) {
         JOptionPane.showMessageDialog(
                 parentComponent,
@@ -51,7 +71,10 @@ public class JFrames extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
         );
     }
-
+    
+    /**
+     * Показывает сообщение о завершении игры.
+     */
     private void showGameOver() {
         JOptionPane.showMessageDialog(
                 this,
@@ -60,7 +83,12 @@ public class JFrames extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
-
+    
+    /**
+     * Показывает уведомление о новой локации.
+     *
+     * @param parentComponent компонент, относительно которого выводится сообщение
+     */
     private void showNewLocationMessage(Component parentComponent) {
         JOptionPane.showMessageDialog(
                 parentComponent,
@@ -1121,7 +1149,11 @@ public class JFrames extends javax.swing.JFrame {
         jProgressBar2.setMaximum(enemy.getMaxHealth());*/
         
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    /**
+     * Обработчик кнопки "Атаковать".
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         game.fight.Hit( game, human, enemy, 1, jLabel13, jLabel12, jDialog1,
                 jLabel18, game.action, jProgressBar1, jProgressBar2, jDialog2, 
@@ -1129,14 +1161,22 @@ public class JFrames extends javax.swing.JFrame {
                 jLabel26, jLabel29, jLabel27, items, jRadioButton3, jDialog7, jLabel33, jLabel35, jLabel36);
         
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    /**
+     * Обработчик кнопки "Защититься".
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         game.fight.Hit( game, human, enemy, 0, jLabel13, jLabel12, jDialog1,
                 jLabel18, game.action, jProgressBar1, jProgressBar2, jDialog2, 
                 jDialog4, jFrame1, game.getResults(), jLabel20, jLabel24, 
                 jLabel26, jLabel29, jLabel27, items, jRadioButton3, jDialog7, jLabel33, jLabel35, jLabel36);
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    /**
+     * Обработчик кнопки "Дальше" (диалог перехода).
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jLabel35.setText("");
         jLabel36.setText("");
@@ -1151,7 +1191,11 @@ public class JFrames extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
+    /**
+     * Обработчик кнопки "Закончить игру".
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
             game.EndGameTop(human, jTextField1, jTable1);
@@ -1161,7 +1205,11 @@ public class JFrames extends javax.swing.JFrame {
         jDialog2.dispose();
         jTextField1.setText("");
     }//GEN-LAST:event_jButton6ActionPerformed
-
+    /**
+     * Обработчик кнопки закрытия таблицы рекордов.
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jDialog3.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1170,7 +1218,11 @@ public class JFrames extends javax.swing.JFrame {
         jDialog3.setVisible(true);
         jDialog3.setBounds(100, 100, 580, 450);
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    /**
+     * Обработчик кнопки в диалоге с результатом.
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jDialog4.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -1182,7 +1234,11 @@ public class JFrames extends javax.swing.JFrame {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
-
+    /**
+     * Обработчик кнопки подтверждения использования предмета.
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if(jRadioButton1.isSelected()){
             nameButton="jRadioButton1";
@@ -1198,16 +1254,28 @@ public class JFrames extends javax.swing.JFrame {
         jLabel12.setText(human.getHealth() + "/" + human.getMaxHealth());
         game.change.BagText(items, jRadioButton1, jRadioButton2, jRadioButton3);
     }//GEN-LAST:event_jButton9ActionPerformed
-
+    /**
+     * Обработчик кнопки "Предметы".
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jDialog5.setVisible(true);
         jDialog5.setBounds(300, 200, 430, 350);
     }//GEN-LAST:event_jButton10ActionPerformed
-
+    /**
+     * Обработчик кнопки подтверждения диалога.
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         jDialog6.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
-
+    /**
+     * Обработчик кнопки завершения игры в финальном диалоге.
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         jLabel35.setText("");
         jLabel36.setText("");
@@ -1228,7 +1296,11 @@ public class JFrames extends javax.swing.JFrame {
 
         jDialog7.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
-
+    /**
+     * Обработчик кнопки "Ослабить противника".
+     *
+     * @param evt событие нажатия кнопки
+     */
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         game.fight.Hit( game, human, enemy, 2, jLabel13, jLabel12, jDialog1,
                 jLabel18, game.action, jProgressBar1, jProgressBar2, jDialog2, 

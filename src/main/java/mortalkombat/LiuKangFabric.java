@@ -1,17 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
-
-
 /**
- *
+ * Фабрика для создания экземпляров противника типа LiuKang.
+ * Реализует интерфейс EnemyFabricInterface.
+ * 
  * @author Мария
  */
 public class LiuKangFabric implements EnemyFabricInterface {
 
+    /**
+     * Создает нового противника типа LiuKang
+     * 
+     * @param i параметр для настройки характеристик противника (не используется)
+     * @return новый экземпляр класса LiuKang
+     */
     @Override
     public Player create(int i) {
         Player enemy;

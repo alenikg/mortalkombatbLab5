@@ -1,15 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
 /**
+ * Фабрика для создания врагов разных типов.
+ * Использует паттерн "Фабрика", чтобы по индексу создать определённого персонажа.
  *
  * @author Мария
  */
 public class EnemyFabric {
 
+    /**
+     * Создаёт врага по указанному индексу.
+     *
+     * @param i номер типа врага (0 - Baraka, 1 - SubZero, 2 - Liu Kang, 3 - Sonya Blade, 4 - Shao Kahn)
+     * @param j параметр, передаваемый в метод create конкретной фабрики (например, уровень)
+     * @return объект {@link Player}, представляющий выбранного врага
+     */
     public Player create(int i, int j) {
         EnemyFabricInterface fabric = null;
 

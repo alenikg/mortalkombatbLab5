@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
 import java.io.*;
@@ -25,17 +22,43 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
+ * Основной класс игры.
+ * Управляет локациями, игроком, врагами и таблицей рекордов.
+ *
  * @author Мария
  */
 public class Game {
+    /** Количество локаций. */
     int locationCount = 0;
+    
+    /** Индекс текущей локации. */
     int currLocationIndex = 0;
+    
+    /** Логика действий персонажей. */
     CharacterAction action = new CharacterAction();
+    
+    /** Класс для работы с текстами. */
     ChangeTexts change = new ChangeTexts();
+    
+    /** Класс боя. */
     Fight fight = new Fight();
+    
+    /** Игрок. */
     Human human = null;
+    
+    /** Список результатов. */
     private ArrayList<Result> results = new ArrayList<>();
 
+    /**
+     * Создаёт нового врага для локации.
+     *
+     * @param L1 метка изображения
+     * @param L2 метка имени
+     * @param L3 метка урона
+     * @param L4 метка здоровья
+     * @param pr2 прогрессбар врага
+     * @return новый враг
+     */
     public Player NewEnemy(JLabel L1, JLabel L2,
                            JLabel L3, JLabel L4, JProgressBar pr2) {
         int enemyCount = this.human != null ? getRandomEnemiesCount(this.human.getLevel()) : 1;
@@ -47,18 +70,30 @@ public class Game {
         return enemy;
     }
 
+    /** 
+     * Увеличивает индекс текущей локации. 
+     */
     public void incrementCurrLocation() {
         currLocationIndex ++;
     }
 
+    /** 
+     * Проверяет, последняя ли локация.
+     */
     public Boolean isLastLocation() {
         return currLocationIndex == locationCount - 1;
     }
 
+    /** 
+     * Проверяет, закончились ли локации. 
+     */
     public Boolean hasNotLocation() {
         return currLocationIndex > locationCount - 1;
     }
 
+    /** 
+     * Возвращает файл с результатами. 
+     */
     private File getResultsFile() {
         URL url = getClass().getResource("/Results.xlsx");
         if (url == null) {
@@ -70,16 +105,28 @@ public class Game {
         return new File(url.getPath());
     }
 
+    /** 
+     * Генерирует случайное количество врагов для локации. 
+     */
     private int getRandomEnemiesCount(int level) {
         int min = level + 2;
         int max = level + 5;
         return new Random().nextInt(max - min + 1) + min;
     }
 
+    /** 
+     * Устанавливает количество локаций. 
+     */
     public void setLocationCount(int locationCount) {
         this.locationCount = locationCount;
     }
 
+    /**
+     * Создаёт нового игрока.
+     *
+     * @param pr1 прогрессбар игрока
+     * @return новый игрок
+     */    
     public Human NewHuman(JProgressBar pr1) {
         Human human = new Human(0, 80, 16, 1);
         this.human = human;
@@ -88,6 +135,13 @@ public class Game {
         return human;
     }
 
+    /**
+     * Завершает игру, добавляя результат в таблицу.
+     *
+     * @param human игрок
+     * @param text поле с именем
+     * @param table таблица
+     */
     public void EndGameTop(Human human, JTextField text, JTable table) throws IOException {
         results.add(new Result(text.getText(), human.getPoints()));
         results.sort(Comparator.comparing(Result::getPoints).reversed());
@@ -95,6 +149,9 @@ public class Game {
         WriteToExcel();
     }
 
+    /** 
+     * Записывает таблицу результатов в Excel. 
+     */
     public void WriteToExcel() throws IOException {
         File file = this.getResultsFile();
         if (file == null) {
@@ -118,10 +175,16 @@ public class Game {
         book.close();
     }
 
+    /** 
+     * Возвращает список результатов. 
+     */
     public ArrayList<Result> getResults() {
         return this.results;
     }
 
+    /** 
+     * Читает таблицу результатов из Excel. 
+     */
     public void ReadFromExcel() {
         File file = this.getResultsFile();
         if (file == null) {
@@ -140,6 +203,9 @@ public class Game {
         }
     }
 
+    /** 
+     * Записывает результаты в таблицу. 
+     */
     public void WriteToTable(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         for (int i = 0; i < results.size(); i++) {

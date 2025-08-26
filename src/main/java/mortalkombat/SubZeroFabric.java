@@ -1,17 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
-
-
 /**
- *
+ * Фабрика для создания экземпляров противника типа SubZero.
+ * Реализует интерфейс EnemyFabricInterface.
+ * 
  * @author Мария
  */
 public class SubZeroFabric implements EnemyFabricInterface {
-
+    
+    /**
+     * Создает нового противника типа SubZero
+     * 
+     * @param i параметр для настройки характеристик противника (не используется)
+     * @return новый экземпляр класса SubZero с установленной способностью ослабления
+     */
     @Override
     public Player create(int i) {
         Player enemy;

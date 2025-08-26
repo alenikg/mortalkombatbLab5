@@ -1,32 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
-//ADD IMAGE!!!
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 
 /**
+ * Класс управляет боем:
+ * обработка ходов, нанесение урона, конец раунда и игры.
  *
  * @author Мария
  */
 public class Fight {
-
+    
+    /** Класс для обновления текста интерфейса. */
     ChangeTexts change = new ChangeTexts();
+    
+    /** Текущий набор атак врага. */
     int kind_attack[] = {0};
+    
+    /** Таблица опыта по уровням. */
     int experiences[] = {40, 90, 180, 260, 410};
+    
+    /** Фабрика врагов. */
     EnemyFabric fabric = new EnemyFabric();
+    
+    /** Счётчик ходов. */
     int i = 1;
+    
+    /** Индекс атаки в массиве kind_attack. */
     int k = -1;
+    
+    /** Флаг оглушения (1 — игрок оглушён). */
     int stun = 0;
+    
+    /** Вспомогательная вероятность. */
     double v = 0.0;
 
+    /**
+     * Обрабатывает ход двух игроков.
+     *
+     * @param p1 атакующий
+     * @param p2 защищающийся
+     * @param l метка для текстового сообщения
+     * @param l2 метка для результата
+     */
     public void Move(Player p1, Player p2, JLabel l, JLabel l2) {
         if (stun == 1) {
             p1.setAttack(-1);
@@ -162,6 +184,38 @@ public class Fight {
         p1.weakenSpend();
     }
 
+    /**
+     * Выполняет удар игрока или врага.
+     * Обновляет здоровье, прогрессбары, интерфейс, проверяет конец раунда/игры,
+     * начисляет очки и предметы, вызывает переход к следующей локации.
+     *
+     * @param game          объект игры
+     * @param human         игрок
+     * @param enemy         враг
+     * @param a             тип атаки
+     * @param label         метка здоровья врага
+     * @param label2        метка здоровья игрока
+     * @param dialog        диалог конца раунда
+     * @param label3        метка текста конца раунда
+     * @param action        объект CharacterAction
+     * @param pr1           прогрессбар игрока
+     * @param pr2           прогрессбар врага
+     * @param dialog1       диалог конца игры (победа в финале)
+     * @param dialog2       диалог конца игры (поражение)
+     * @param frame         окно игры
+     * @param results       список результатов
+     * @param label4        метка результата
+     * @param label5        метка результата
+     * @param label6        чей ход
+     * @param label7        сообщение
+     * @param label8        сообщение
+     * @param items         массив предметов
+     * @param rb            радиокнопка для выбора предметов
+     * @param locationDialog диалог новой локации
+     * @param locationLabel  метка новой локации
+     * @param weakenLabel    метка ослабления врага
+     * @param weakenHumanLabel метка ослабления игрока
+     */    
     public void Hit(Game game, Player human, Player enemy, int a, JLabel label,
             JLabel label2, JDialog dialog, JLabel label3, CharacterAction action,
             JProgressBar pr1, JProgressBar pr2, JDialog dialog1,
@@ -209,7 +263,7 @@ public class Fight {
             rb.setText(items[2].getName() + ", " + items[2].getCount() + " шт");
             label7.setText("Вы воскресли");
         }
-        if (human.getHealth() <= 0 | enemy.getHealth() <= 0) {
+        if (human.getHealth() <= 0 || enemy.getHealth() <= 0) {
             if (action.hasNotEnemy() && game.isLastLocation()) {
                 EndFinalRound(((Human) human), action, results, dialog1, dialog2,
                         frame, label4, label5);
@@ -218,7 +272,19 @@ public class Fight {
             }
         }
     }
-
+    
+    /**
+     * Завершает раунд (победа/поражение).
+     *
+     * @param human игрок
+     * @param enemy враг
+     * @param dialog диалог конца раунда
+     * @param label метка результата
+     * @param action объект CharacterAction
+     * @param items массив предметов
+     * @param locationDialog диалог новой локации
+     * @param locationLabel метка новой локации
+     */
     public void EndRound(Player human, Player enemy, JDialog dialog, JLabel label,
             CharacterAction action, Items[] items, JDialog locationDialog, JLabel locationLabel) {
 
@@ -239,6 +305,9 @@ public class Fight {
         } else {
             label.setText(enemy.getName() + " win");
             locationLabel.setText(enemy.getName() + " win");
+            
+            JOptionPane.showMessageDialog(null, "GAME OVER");
+            System.exit(0);
         }
         if (action.hasNotEnemy()) {
             locationDialog.setVisible(true);
@@ -253,7 +322,19 @@ public class Fight {
         kind_attack = ResetAttack();
 
     }
-
+    
+    /**
+     * Завершает финальный раунд (последняя локация).
+     *
+     * @param human игрок
+     * @param action объект CharacterAction
+     * @param results список результатов
+     * @param dialog1 диалог победы (ТОП-10)
+     * @param dialog2 диалог победы (не ТОП-10)
+     * @param frame окно игры
+     * @param label1 метка результата
+     * @param label2 метка результата
+     */
     public void EndFinalRound(Human human, CharacterAction action,
             ArrayList<Result> results, JDialog dialog1, JDialog dialog2, JFrame frame,
             JLabel label1, JLabel label2) {
@@ -288,12 +369,32 @@ public class Fight {
         }
         frame.dispose();
     }
-
+    
+    /**
+     * Сбрасывает массив атак (новый раунд).
+     *
+     * @return массив {0}
+     */
     public int[] ResetAttack() {
         int a[] = {0};
         return a;
     }
 
+
+
+    /**
+     * Начинает новый раунд с новым врагом.
+     *
+     * @param human игрок
+     * @param label метка изображения врага
+     * @param pr1 прогрессбар игрока
+     * @param pr2 прогрессбар врага
+     * @param label2 метка имени врага
+     * @param text метка урона врага
+     * @param label3 метка здоровья врага
+     * @param game объект игры
+     * @return новый враг
+     */
     public Player NewRound(Player human, JLabel label, JProgressBar pr1,
             JProgressBar pr2, JLabel label2, JLabel text, JLabel label3, Game game) {
         CharacterAction action = game.action;

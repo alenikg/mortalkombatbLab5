@@ -1,15 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package mortalkombat;
 
 /**
- *
+ * Фабрика для создания экземпляров босса Шао Кана.
+ * Реализует интерфейс EnemyFabricInterface.
+ * Создает различные варианты Шао Кана в зависимости от параметра.
+ * 
  * @author Мария
  */
 public class ShaoKahnFabric implements EnemyFabricInterface{
     
+    /**
+     * Создает нового босса типа ShaoKahn с различными характеристиками
+     * в зависимости от параметра
+     * 
+     * @param i параметр, определяющий вариант босса:
+     *          0 - стандартный вариант,
+     *          другие значения - усиленный вариант
+     * @return новый экземпляр класса ShaoKahn
+     */    
     @Override
     public Player create(int i) {
         Player enemy;
